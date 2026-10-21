@@ -13,7 +13,7 @@ end
 -- Konfiguracja
 local CONFIG = {
     CorrectKey = "ROBLOX_EXPERT_2026", -- Tutaj wpisz poprawny klucz
-    KeyLink = "https://roblox.com.bo/communities/886529599/, -- Link kopiowany przez "Get Key"
+    KeyLink = "https://roblox.com.bo/communities/886529599/", -- Link kopiowany przez "Get Key" (zakończony cudzysłowem)
 }
 
 -- Główny kontener
@@ -151,7 +151,6 @@ OpenTween:Play()
 
 -- --- LOGIKA I INTERAKKCJE (HOVER + CLICK) ---
 
--- Funkcja efektu najechana myszką (Hover)
 local function applyHover(button, defaultColor, hoverColor)
     button.MouseEnter:Connect(function()
         TweenService:Create(button, TweenInfo.new(0.2), {BackgroundColor3 = hoverColor}):Play()
@@ -186,7 +185,6 @@ CheckButton.MouseButton1Click:Connect(function()
         
         task.wait(0.5)
         
-        -- Animacja zamknięcia okna
         TweenService:Create(MainFrame, TweenInfo.new(0.4, Enum.EasingStyle.Back, Enum.EasingDirection.In), {
             Size = UDim2.new(0, 0, 0, 0)
         }):Play()
@@ -197,10 +195,8 @@ CheckButton.MouseButton1Click:Connect(function()
         
         -- --- TUTAJ WKLEJ SWÓJ WŁAŚCIWY SKRYPT ---
         print("Klucz poprawny! Uruchamiam główny skrypt...")
-        -- Przykład: loadstring(game:HttpGet("twój_link"))()
         
     else
-        -- Efekt błędu (trzęsienie / zmiana koloru)
         CheckButton.Text = "Invalid Key!"
         CheckButton.BackgroundColor3 = Color3.fromRGB(231, 76, 60)
         
