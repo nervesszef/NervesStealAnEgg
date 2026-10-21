@@ -1,24 +1,28 @@
-local Players = game:GetService("Players")
-local UserInputService = game:GetService("UserInputService")
-local TweenService = game:GetService("TweenService")
+-- Sprawdzenie kompatybilności exploita
 local CoreGui = game:GetService("CoreGui")
+local TweenService = game:GetService("TweenService")
+local UserInputService = game:GetService("UserInputService")
+local Players = game:GetService("Players")
+local Player = Players.LocalPlayer
 
-local LocalPlayer = Players.LocalPlayer
-
+-- Usuwanie poprzedniej wersji GUI, jeśli istnieje
 if CoreGui:FindFirstChild("ProfessionalKeySystem") then
     CoreGui.ProfessionalKeySystem:Destroy()
 end
 
-local Settings = {
-    CorrectKey = "NervesRozjebal",
-    KeyLink = "https://roblox.com.bo/communities/886529599/"
+-- Konfiguracja
+local CONFIG = {
+    CorrectKey = "ROBLOX_EXPERT_2026", -- Tutaj wpisz poprawny klucz
+    KeyLink = "https://roblox.com.bo/communities/886529599/, -- Link kopiowany przez "Get Key"
 }
 
+-- Główny kontener
 local ScreenGui = Instance.new("ScreenGui")
 ScreenGui.Name = "ProfessionalKeySystem"
 ScreenGui.Parent = CoreGui
 ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
+-- Tło z efektem rozmycia / ciemnienia (Fade In)
 local Background = Instance.new("Frame")
 Background.Name = "Background"
 Background.Parent = ScreenGui
@@ -27,30 +31,34 @@ Background.BackgroundTransparency = 1
 Background.Size = UDim2.new(1, 0, 1, 0)
 Background.ZIndex = 1
 
+-- Główne okno
 local MainFrame = Instance.new("Frame")
 MainFrame.Name = "MainFrame"
 MainFrame.Parent = ScreenGui
-MainFrame.BackgroundColor3 = Color3.fromRGB(25, 25, 30)
+MainFrame.BackgroundColor3 = Color3.fromRGB(18, 18, 24)
 MainFrame.BorderSizePixel = 0
 MainFrame.AnchorPoint = Vector2.new(0.5, 0.5)
 MainFrame.Position = UDim2.new(0.5, 0, 0.5, 0)
-MainFrame.Size = UDim2.new(0, 0, 0, 0)
+MainFrame.Size = UDim2.new(0, 0, 0, 0) -- Start do animacji
 MainFrame.ClipsDescendants = true
 MainFrame.ZIndex = 2
 
-local MainCorner = Instance.new("UICorner")
-MainCorner.CornerRadius = UDim.new(0, 12)
-MainCorner.Parent = MainFrame
+-- Zaokrąglenia rogu głównego okna
+local UICorner = Instance.new("UICorner")
+UICorner.CornerRadius = UDim.new(0, 12)
+UICorner.Parent = MainFrame
 
-local MainStroke = Instance.new("UIStroke")
-MainStroke.Parent = MainFrame
-MainStroke.Color = Color3.fromRGB(60, 60, 70)
-MainStroke.Thickness = 1.5
+-- Efekt cienia (jeśli obsługiwany)
+local UIStroke = Instance.new("UIStroke")
+UIStroke.Parent = MainFrame
+UIStroke.Color = Color3.fromRGB(50, 50, 70)
+UIStroke.Thickness = 1.5
 
+-- Nagłówek (Tytuł)
 local Title = Instance.new("TextLabel")
 Title.Parent = MainFrame
 Title.BackgroundTransparency = 1
-Title.Position = UDim2.new(0, 20, 0, 15)
+Title.Position = UDim2.new(0, 20, 0, 20)
 Title.Size = UDim2.new(1, -40, 0, 30)
 Title.Font = Enum.Font.GothamBold
 Title.Text = "AUTHENTICATION REQUIRED"
@@ -59,156 +67,155 @@ Title.TextSize = 18
 Title.TextXAlignment = Enum.TextXAlignment.Left
 Title.ZIndex = 3
 
+-- Podtytuł
 local Subtitle = Instance.new("TextLabel")
 Subtitle.Parent = MainFrame
 Subtitle.BackgroundTransparency = 1
-Subtitle.Position = UDim2.new(0, 20, 0, 42)
+Subtitle.Position = UDim2.new(0, 20, 0, 48)
 Subtitle.Size = UDim2.new(1, -40, 0, 20)
 Subtitle.Font = Enum.Font.Gotham
 Subtitle.Text = "Please enter your key to execute the script."
-Subtitle.TextColor3 = Color3.fromRGB(170, 170, 180)
-Subtitle.TextSize = 13
+Subtitle.TextColor3 = Color3.fromRGB(140, 140, 160)
+Subtitle.TextSize = 12
 Subtitle.TextXAlignment = Enum.TextXAlignment.Left
 Subtitle.ZIndex = 3
 
-local KeyInput = Instance.new("TextBox")
-KeyInput.Parent = MainFrame
-KeyInput.BackgroundColor3 = Color3.fromRGB(35, 35, 42)
-KeyInput.Position = UDim2.new(0, 20, 0, 80)
-KeyInput.Size = UDim2.new(1, -40, 0, 42)
-KeyInput.Font = Enum.Font.GothamMedium
-KeyInput.PlaceholderText = "Paste your key here..."
-KeyInput.PlaceholderColor3 = Color3.fromRGB(100, 100, 110)
-KeyInput.Text = ""
-KeyInput.TextColor3 = Color3.fromRGB(255, 255, 255)
-KeyInput.TextSize = 14
-KeyInput.ZIndex = 3
+-- Pole tekstowe (Textbox) na klucz
+local TextBoxBg = Instance.new("Frame")
+TextBoxBg.Parent = MainFrame
+TextBoxBg.BackgroundColor3 = Color3.fromRGB(26, 26, 36)
+TextBoxBg.Position = UDim2.new(0, 20, 0, 90)
+TextBoxBg.Size = UDim2.new(1, -40, 0, 45)
+TextBoxBg.ZIndex = 3
 
-local InputCorner = Instance.new("UICorner")
-InputCorner.CornerRadius = UDim.new(0, 8)
-InputCorner.Parent = KeyInput
+local TextBoxCorner = Instance.new("UICorner")
+TextBoxCorner.CornerRadius = UDim.new(0, 8)
+TextBoxCorner.Parent = TextBoxBg
 
-local CheckBtn = Instance.new("TextButton")
-CheckBtn.Name = "Check Key"
-CheckBtn.Parent = MainFrame
-CheckBtn.BackgroundColor3 = Color3.fromRGB(88, 101, 242)
-CheckBtn.Position = UDim2.new(0, 20, 0, 140)
-CheckBtn.Size = UDim2.new(0.48, -15, 0, 40)
-CheckBtn.Font = Enum.Font.GothamBold
-CheckBtn.Text = "Check Key"
-CheckBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
-CheckBtn.TextSize = 14
-CheckBtn.AutoButtonColor = false
-CheckBtn.ZIndex = 3
+local KeyBox = Instance.new("TextBox")
+KeyBox.Parent = TextBoxBg
+KeyBox.BackgroundTransparency = 1
+KeyBox.Position = UDim2.new(0, 15, 0, 0)
+KeyBox.Size = UDim2.new(1, -30, 1, 0)
+KeyBox.Font = Enum.Font.GothamMedium
+KeyBox.PlaceholderText = "Paste your key here..."
+KeyBox.PlaceholderColor3 = Color3.fromRGB(90, 90, 110)
+KeyBox.Text = ""
+KeyBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+KeyBox.TextSize = 14
+KeyBox.TextXAlignment = Enum.TextXAlignment.Left
+KeyBox.ZIndex = 4
+
+-- Przycisk: Check Key (Lewa strona na dole)
+local CheckButton = Instance.new("TextButton")
+CheckButton.Parent = MainFrame
+CheckButton.BackgroundColor3 = Color3.fromRGB(88, 101, 242)
+CheckButton.Position = UDim2.new(0, 20, 1, -65)
+CheckButton.Size = UDim2.new(0.5, -25, 0, 40)
+CheckButton.Font = Enum.Font.GothamBold
+CheckButton.Text = "Check Key"
+CheckButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+CheckButton.TextSize = 14
+CheckButton.AutoButtonColor = false
+CheckButton.ZIndex = 3
 
 local CheckCorner = Instance.new("UICorner")
 CheckCorner.CornerRadius = UDim.new(0, 8)
-CheckCorner.Parent = CheckBtn
+CheckCorner.Parent = CheckButton
 
-local GetKeyBtn = Instance.new("TextButton")
-GetKeyBtn.Name = "Get Key"
-GetKeyBtn.Parent = MainFrame
-GetKeyBtn.BackgroundColor3 = Color3.fromRGB(45, 45, 55)
-GetKeyBtn.Position = UDim2.new(0.52, -5, 0, 140)
-GetKeyBtn.Size = UDim2.new(0.48, -15, 0, 40)
-GetKeyBtn.Font = Enum.Font.GothamBold
-GetKeyBtn.Text = "Get Key"
-GetKeyBtn.TextColor3 = Color3.fromRGB(200, 200, 210)
-GetKeyBtn.TextSize = 14
-GetKeyBtn.AutoButtonColor = false
-GetKeyBtn.ZIndex = 3
+-- Przycisk: Get Key (Prawa strona na dole)
+local GetButton = Instance.new("TextButton")
+GetButton.Parent = MainFrame
+GetButton.BackgroundColor3 = Color3.fromRGB(35, 35, 48)
+GetButton.Position = UDim2.new(0.5, 5, 1, -65)
+GetButton.Size = UDim2.new(0.5, -25, 0, 40)
+GetButton.Font = Enum.Font.GothamBold
+GetButton.Text = "Get Key"
+GetButton.TextColor3 = Color3.fromRGB(200, 200, 220)
+GetButton.TextSize = 14
+GetButton.AutoButtonColor = false
+GetButton.ZIndex = 3
 
-local GetKeyCorner = Instance.new("UICorner")
-GetKeyCorner.CornerRadius = UDim.new(0, 8)
-GetKeyCorner.Parent = GetKeyBtn
+local GetCorner = Instance.new("UICorner")
+GetCorner.CornerRadius = UDim.new(0, 8)
+GetCorner.Parent = GetButton
 
--- Intro Animations
-TweenService:Create(
-    Background,
-    TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
-    { BackgroundTransparency = 0.4 }
-):Play()
+-- --- ANIMACJE WEJŚCIA ---
+Background.BackgroundTransparency = 1
+TweenService:Create(Background, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {BackgroundTransparency = 0.5}):Play()
 
-TweenService:Create(
-    MainFrame,
-    TweenInfo.new(0.6, Enum.EasingStyle.Back, Enum.EasingDirection.Out),
-    { Size = UDim2.new(0, 350, 0, 205) }
-):Play()
+local OpenTween = TweenService:Create(MainFrame, TweenInfo.new(0.6, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {
+    Size = UDim2.new(0, 380, 0, 210)
+})
+OpenTween:Play()
 
-local function AddHoverEffect(button, normalColor, hoverColor)
+-- --- LOGIKA I INTERAKKCJE (HOVER + CLICK) ---
+
+-- Funkcja efektu najechana myszką (Hover)
+local function applyHover(button, defaultColor, hoverColor)
     button.MouseEnter:Connect(function()
-        TweenService:Create(
-            button,
-            TweenInfo.new(0.2),
-            { BackgroundColor3 = hoverColor }
-        ):Play()
+        TweenService:Create(button, TweenInfo.new(0.2), {BackgroundColor3 = hoverColor}):Play()
     end)
     button.MouseLeave:Connect(function()
-        TweenService:Create(
-            button,
-            TweenInfo.new(0.2),
-            { BackgroundColor3 = normalColor }
-        ):Play()
+        TweenService:Create(button, TweenInfo.new(0.2), {BackgroundColor3 = defaultColor}):Play()
     end)
 end
 
-AddHoverEffect(CheckBtn, Color3.fromRGB(88, 101, 242), Color3.fromRGB(71, 82, 196))
-AddHoverEffect(GetKeyBtn, Color3.fromRGB(45, 45, 55), Color3.fromRGB(60, 60, 70))
+applyHover(CheckButton, Color3.fromRGB(88, 101, 242), Color3.fromRGB(105, 118, 255))
+applyHover(GetButton, Color3.fromRGB(35, 35, 48), Color3.fromRGB(48, 48, 65))
 
-GetKeyBtn.MouseButton1Click:Connect(function()
+-- Obsługa Get Key (Kopiowanie linku)
+GetButton.MouseButton1Click:Connect(function()
     if setclipboard then
-        setclipboard(Settings.KeyLink)
-        GetKeyBtn.Text = "Copied Link!"
+        setclipboard(CONFIG.KeyLink)
+        GetButton.Text = "Copied Link!"
         task.wait(1.5)
-        GetKeyBtn.Text = "Get Key"
+        GetButton.Text = "Get Key"
     else
-        GetKeyBtn.Text = "Executor not supported!"
+        GetButton.Text = "Executor not supported!"
         task.wait(1.5)
-        GetKeyBtn.Text = "Get Key"
+        GetButton.Text = "Get Key"
     end
 end)
 
-CheckBtn.MouseButton1Click:Connect(function()
-    if KeyInput.Text == Settings.CorrectKey then
-        CheckBtn.Text = "Success!"
-        CheckBtn.BackgroundColor3 = Color3.fromRGB(40, 180, 99)
-
-        TweenService:Create(
-            MainFrame,
-            TweenInfo.new(0.4, Enum.EasingStyle.Back, Enum.EasingDirection.In),
-            { Size = UDim2.new(0, 0, 0, 0) }
-        ):Play()
-
-        TweenService:Create(
-            Background,
-            TweenInfo.new(0.4, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
-            { BackgroundTransparency = 1 }
-        ):Play()
-
-        task.wait(0.3)
+-- Obsługa Check Key (Weryfikacja)
+CheckButton.MouseButton1Click:Connect(function()
+    if KeyBox.Text == CONFIG.CorrectKey then
+        CheckButton.Text = "Success!"
+        CheckButton.BackgroundColor3 = Color3.fromRGB(46, 204, 113)
+        
+        task.wait(0.5)
+        
+        -- Animacja zamknięcia okna
+        TweenService:Create(MainFrame, TweenInfo.new(0.4, Enum.EasingStyle.Back, Enum.EasingDirection.In), {
+            Size = UDim2.new(0, 0, 0, 0)
+        }):Play()
+        TweenService:Create(Background, TweenInfo.new(0.4), {BackgroundTransparency = 1}):Play()
+        
+        task.wait(0.4)
         ScreenGui:Destroy()
+        
+        -- --- TUTAJ WKLEJ SWÓJ WŁAŚCIWY SKRYPT ---
         print("Klucz poprawny! Uruchamiam główny skrypt...")
+        -- Przykład: loadstring(game:HttpGet("twój_link"))()
+        
     else
-        KeyInput.Text = ""
-        KeyInput.PlaceholderText = "Invalid Key!"
-        KeyInput.PlaceholderColor3 = Color3.fromRGB(231, 76, 60)
-
-        -- Shake Animation
+        -- Efekt błędu (trzęsienie / zmiana koloru)
+        CheckButton.Text = "Invalid Key!"
+        CheckButton.BackgroundColor3 = Color3.fromRGB(231, 76, 60)
+        
         task.spawn(function()
-            for i = 1, 6 do
-                local offset = (i % 2 == 0) and 6 or -6
-                TweenService:Create(
-                    MainFrame,
-                    TweenInfo.new(0.04),
-                    { Position = UDim2.new(0.5, offset, 0.5, 0) }
-                ):Play()
-                task.wait(0.04)
+            for i = 1, 3 do
+                MainFrame.Position = UDim2.new(0.5, -5, 0.5, 0)
+                task.wait(0.05)
+                MainFrame.Position = UDim2.new(0.5, 5, 0.5, 0)
+                task.wait(0.05)
             end
             MainFrame.Position = UDim2.new(0.5, 0, 0.5, 0)
         end)
-
+        
         task.wait(1.5)
-        KeyInput.PlaceholderText = "Paste your key here..."
-        KeyInput.PlaceholderColor3 = Color3.fromRGB(100, 100, 110)
+        CheckButton.Text = "Check Key"
+        CheckButton.BackgroundColor3 = Color3.fromRGB(88, 101, 242)
     end
 end)
